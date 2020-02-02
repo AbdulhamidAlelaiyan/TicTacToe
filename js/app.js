@@ -13,6 +13,8 @@ const correctCombinations = [
 let xChecks = [];
 let oChecks = [];
 let winner;
+let multiPlayer = false;
+let recursion = true;
 let localStorage = window.localStorage;
 
 let xScore = localStorage.getItem('xScore') ? localStorage.getItem('xScore') : 0;
@@ -22,7 +24,6 @@ let tScore = localStorage.getItem('tScore') ? localStorage.getItem('tScore') : 0
 document.querySelector('.x-score').innerHTML = xScore;
 document.querySelector('.o-score').innerHTML = oScore;
 document.querySelector('.t-score').innerHTML = tScore;
-
 
 const boxes = document.querySelectorAll('.box');
 
@@ -51,6 +52,7 @@ for (let i = 0; i < boxes.length; i++) {
             elementSelected.classList.add('selected');
             if(turn === 'x') document.querySelector('.click1').play();
             else document.querySelector('.click2').play();
+            recursion = false;
         } else {
             return;
         }
@@ -101,8 +103,11 @@ for (let i = 0; i < boxes.length; i++) {
             document.querySelector('.result').innerText = turn.toUpperCase()  + ' Turn.';
         }
 
-        // ---------
-
+        //---------
+        i = i === 9 ? -1 : i;
+        if(!multiPlayer && recursion) {
+            document.querySelector('.box-' + (i + 1)).click();
+        }
     });
 }
 
@@ -118,5 +123,4 @@ document.querySelector('.clear-game').addEventListener('click', function() {
     localStorage.setItem('xScore', 0);
     localStorage.setItem('oScore', 0);
     localStorage.setItem('tScore', 0);
-})
-
+});
