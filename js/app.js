@@ -42,6 +42,8 @@ for (let i = 0; i < boxes.length; i++) {
             elementSelected.style.backgroundRepeat = 'no-repeat';
             elementSelected.style.backgroundPosition = 'center';
             elementSelected.classList.add('selected');
+            if(turn === 'x') document.querySelector('.click1').play();
+            else document.querySelector('.click2').play();
         } else {
             return;
         }
@@ -79,6 +81,7 @@ for (let i = 0; i < boxes.length; i++) {
         turn = turn === 'x' ? 'o' : 'x';
         if(winner !== '') {
             document.querySelector('.result').innerText = winner.toUpperCase() + ' Won! 🏆';
+            document.querySelector('.win-audio').play();
             clearGame();
         }
         else if(oChecks.length + xChecks.length === 9) {

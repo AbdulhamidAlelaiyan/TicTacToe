@@ -14,6 +14,7 @@ body {
     font-size: 80px;
     font-family: 'Rubik Mono One', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: white;
+    margin-top: 0;
 }
 
 .wrapper {
@@ -87,4 +88,8 @@ body {
 .result {
     text-align: center;
     width: 100%;
+}
+
+audio {
+    display: none;
 }
