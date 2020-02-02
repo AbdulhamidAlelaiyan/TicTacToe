@@ -11,11 +11,25 @@ const correctCombinations = [
 ];
 
 
-const xChecks = [];
-const oChecks = [];
+let xChecks = [];
+let oChecks = [];
 let winner;
+let xScore = 0;
+let oScore = 0;
 
 const boxes = document.querySelectorAll('.box');
+
+const clearGame = function() {
+    for (let i = 0; i < boxes.length; i++)  {
+        const elementSelected = document.querySelector('.box-' + (i + 1));
+        elementSelected.style.backgroundImage = '';
+    }
+    xChecks = [];
+    oChecks = [];
+    winner = '';
+    turn = 'x';
+}
+
 for (let i = 0; i < boxes.length; i++) {
     boxes[i].addEventListener('click', function () {
         winner = '';
@@ -42,6 +56,7 @@ for (let i = 0; i < boxes.length; i++) {
                 correctCombinations[i].includes(xChecks[2])
             ) {
                 winner = 'x';
+                document.querySelector('.x-score').innerHTML = ++xScore;
             }
             else if(
                 correctCombinations[i].includes(oChecks[0])
@@ -51,10 +66,19 @@ for (let i = 0; i < boxes.length; i++) {
                 correctCombinations[i].includes(oChecks[2])
             ) {
                 winner = 'o';
+                document.querySelector('.o-score').innerHTML = ++oScore;
             }
         }
         turn = turn === 'x' ? 'o' : 'x';
-        if(winner !== '') document.querySelector('.result').innerText = winner.toUpperCase() + ' Won!';
+        if(winner !== '') {
+            document.querySelector('.result').innerText = winner.toUpperCase() + ' Won!';
+            clearGame();
+        }
+        else if(oChecks.length + xChecks.length === 9) {
+            document.querySelector('.result').innerText = 'Tie :(';
+            clearGame();
+        }
+
         // ---------
 
     });
