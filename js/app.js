@@ -4,7 +4,7 @@ const correctCombinations = [
     [4, 5, 6],
     [7, 8, 9],
     [1, 4, 7],
-    [2, 5, 7],
+    [2, 5, 8],
     [3, 6, 9],
     [1, 5, 9],
     [3, 5, 7],
@@ -15,6 +15,7 @@ let oChecks = [];
 let winner;
 let xScore = 0;
 let oScore = 0;
+let tScore = 0;
 
 const boxes = document.querySelectorAll('.box');
 
@@ -77,11 +78,12 @@ for (let i = 0; i < boxes.length; i++) {
         }
         turn = turn === 'x' ? 'o' : 'x';
         if(winner !== '') {
-            document.querySelector('.result').innerText = winner.toUpperCase() + ' Won!';
+            document.querySelector('.result').innerText = winner.toUpperCase() + ' Won! 🏆';
             clearGame();
         }
         else if(oChecks.length + xChecks.length === 9) {
             document.querySelector('.result').innerText = 'Tie :(';
+            document.querySelector('.t-score').innerHTML = ++tScore;
             clearGame();
         } else {
             document.querySelector('.result').innerText = turn.toUpperCase()  + ' Turn.';
@@ -96,7 +98,9 @@ document.querySelector('.clear-game').addEventListener('click', function() {
     clearGame();
     xScore = 0;
     oScore = 0;
+    tScore = 0;
     document.querySelector('.result').innerText = 'Game reset!';
     document.querySelector('.x-score').innerText = xScore;
     document.querySelector('.o-score').innerText = oScore;
+    document.querySelector('.t-score').innerHTML = tScore;
 })
