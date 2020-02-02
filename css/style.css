@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik+Mono+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Cairo&display=swap');
 
 * {
     box-sizing: border-box;
@@ -53,22 +54,36 @@ body {
     border-bottom: 3px solid black;
 }
 
+.score img {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    top: 5px;
+}
+
+.score p:nth-child(3) {
+    position: relative;
+    top: 3px;
+}
+
 .box:hover {
     background-color: darkgray;
 }
 
 .score {
-    max-width: 450px;
+    max-width: 800px;
     margin: 30px auto;
     display: flex;
     justify-content: center;
     font-size: 30px;
     flex-wrap: wrap;
+    font-family: 'Cairo', SansSerif;
 }
 
 .score p {
     width: calc(33.33%);
     font-size: 30px;
+    text-align: center;
 }
 
 .button {
@@ -89,6 +104,7 @@ body {
 .result {
     text-align: center;
     width: 100%;
+    justify-self: center;
 }
 
 audio {
