@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik+Mono+One&display=swap');
+
 * {
     box-sizing: border-box;
 }
@@ -10,6 +12,22 @@ body {
 .title {
     text-align: center;
     font-size: 80px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Rubik Mono One', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: white;
+}
+
+.wrapper {
+    border: 1px solid black;
+    margin: 5px auto;
+    width: 900px;
+    display: flex;
+    flex-wrap: wrap;
+    height: 700px;
+    align-items: stretch;
+}
+
+.box {
+    width: 33.33%;
+    /* height: 50px; */
+    border: 1px solid white;
 }
