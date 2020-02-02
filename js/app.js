@@ -10,7 +10,6 @@ const correctCombinations = [
     [3, 5, 7],
 ];
 
-
 let xChecks = [];
 let oChecks = [];
 let winner;
