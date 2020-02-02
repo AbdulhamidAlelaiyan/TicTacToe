@@ -56,11 +56,17 @@ body {
 }
 
 .score {
-    width: 300px;
+    width: 330px;
     margin: 30px auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     font-size: 30px;
+    flex-wrap: wrap;
+}
+
+.score p {
+    width: calc(50% - 30px);
+    margin: 15px
 }
 
 .button {
@@ -76,4 +82,9 @@ body {
 
 .button:hover {
     background-color: white;
+}
+
+.result {
+    text-align: center;
+    width: 100%;
 }
