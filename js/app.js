@@ -13,13 +13,14 @@ const correctCombinations = [
 let xChecks = [];
 let oChecks = [];
 let winner;
-let multiPlayer = false;
-let recursion = true;
 let localStorage = window.localStorage;
 
 let xScore = localStorage.getItem('xScore') ? localStorage.getItem('xScore') : 0;
 let oScore = localStorage.getItem('oScore') ? localStorage.getItem('oScore') : 0;
 let tScore = localStorage.getItem('tScore') ? localStorage.getItem('tScore') : 0;
+
+let xCorrectChecks = 0;
+let oCorrectChecks = 0;
 
 document.querySelector('.x-score').innerHTML = xScore;
 document.querySelector('.o-score').innerHTML = oScore;
@@ -52,7 +53,6 @@ for (let i = 0; i < boxes.length; i++) {
             elementSelected.classList.add('selected');
             if(turn === 'x') document.querySelector('.click1').play();
             else document.querySelector('.click2').play();
-            recursion = false;
         } else {
             return;
         }
@@ -64,28 +64,33 @@ for (let i = 0; i < boxes.length; i++) {
             oChecks.push(i  + 1);
             oChecks.sort(function(a, b) { return a-b; });
         }
+
         for(let i =  0; i < correctCombinations.length; i++) {
-            if(
-                correctCombinations[i].includes(xChecks[0])
-                &&
-                correctCombinations[i].includes(xChecks[1])
-                &&
-                correctCombinations[i].includes(xChecks[2])
-            ) {
+            xCorrectChecks = 0;
+            oCorrectChecks = 0;
+            for(let j =  0; j < xChecks.length; j++) {
+                if(correctCombinations[i].includes(xChecks[j])) {
+                    xCorrectChecks++;
+                }
+            }
+
+            for(let j =  0; j < oChecks.length; j++) {
+                if(correctCombinations[i].includes(oChecks[j])) {
+                    oCorrectChecks++;
+                }
+            }
+
+            if(xCorrectChecks >= 3) {
                 winner = 'x';
                 document.querySelector('.x-score').innerHTML = ++xScore;
                 localStorage.setItem('xScore', xScore);
+                break;
             }
-            else if(
-                correctCombinations[i].includes(oChecks[0])
-                &&
-                correctCombinations[i].includes(oChecks[1])
-                &&
-                correctCombinations[i].includes(oChecks[2])
-            ) {
+            else if(oCorrectChecks >= 3) {
                 winner = 'o';
                 document.querySelector('.o-score').innerHTML = ++oScore;
                 localStorage.setItem('oScore', oScore);
+                break;
             }
         }
         turn = turn === 'x' ? 'o' : 'x';
@@ -101,12 +106,6 @@ for (let i = 0; i < boxes.length; i++) {
             clearGame();
         } else {
             document.querySelector('.result').innerText = turn.toUpperCase()  + ' Turn.';
-        }
-
-        //---------
-        i = i === 9 ? -1 : i;
-        if(!multiPlayer && recursion) {
-            document.querySelector('.box-' + (i + 1)).click();
         }
     });
 }
