@@ -13,9 +13,16 @@ const correctCombinations = [
 let xChecks = [];
 let oChecks = [];
 let winner;
-let xScore = 0;
-let oScore = 0;
-let tScore = 0;
+let localStorage = window.localStorage;
+
+let xScore = localStorage.getItem('xScore') ? localStorage.getItem('xScore') : 0;
+let oScore = localStorage.getItem('oScore') ? localStorage.getItem('oScore') : 0;
+let tScore = localStorage.getItem('tScore') ? localStorage.getItem('tScore') : 0;
+
+document.querySelector('.x-score').innerHTML = xScore;
+document.querySelector('.o-score').innerHTML = oScore;
+document.querySelector('.t-score').innerHTML = tScore;
+
 
 const boxes = document.querySelectorAll('.box');
 
@@ -55,7 +62,6 @@ for (let i = 0; i < boxes.length; i++) {
             oChecks.push(i  + 1);
             oChecks.sort(function(a, b) { return a-b; });
         }
-        console.log(xChecks, oChecks);
         for(let i =  0; i < correctCombinations.length; i++) {
             if(
                 correctCombinations[i].includes(xChecks[0])
@@ -66,6 +72,7 @@ for (let i = 0; i < boxes.length; i++) {
             ) {
                 winner = 'x';
                 document.querySelector('.x-score').innerHTML = ++xScore;
+                localStorage.setItem('xScore', xScore);
             }
             else if(
                 correctCombinations[i].includes(oChecks[0])
@@ -76,6 +83,7 @@ for (let i = 0; i < boxes.length; i++) {
             ) {
                 winner = 'o';
                 document.querySelector('.o-score').innerHTML = ++oScore;
+                localStorage.setItem('oScore', oScore);
             }
         }
         turn = turn === 'x' ? 'o' : 'x';
@@ -87,6 +95,7 @@ for (let i = 0; i < boxes.length; i++) {
         else if(oChecks.length + xChecks.length === 9) {
             document.querySelector('.result').innerText = 'Tie :(';
             document.querySelector('.t-score').innerHTML = ++tScore;
+            localStorage.setItem('tScore', tScore);
             clearGame();
         } else {
             document.querySelector('.result').innerText = turn.toUpperCase()  + ' Turn.';
@@ -106,4 +115,8 @@ document.querySelector('.clear-game').addEventListener('click', function() {
     document.querySelector('.x-score').innerText = xScore;
     document.querySelector('.o-score').innerText = oScore;
     document.querySelector('.t-score').innerHTML = tScore;
+    localStorage.setItem('xScore', 0);
+    localStorage.setItem('oScore', 0);
+    localStorage.setItem('tScore', 0);
 })
+
