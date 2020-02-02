@@ -17,17 +17,61 @@ body {
 }
 
 .wrapper {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     margin: 5px auto;
     width: 900px;
     display: flex;
     flex-wrap: wrap;
-    height: 700px;
+    height: 550px;
     align-items: stretch;
 }
 
 .box {
     width: 33.33%;
-    /* height: 50px; */
-    border: 1px solid white;
+    /* border: 1px solid white; */
+}
+
+.box-1,
+.box-2,
+.box-4,
+.box-5,
+.box-7,
+.box-8 {
+    border-right: 3px solid black;
+}
+
+.box-1,
+.box-2,
+.box-3,
+.box-4,
+.box-5,
+.box-6 {
+    border-bottom: 3px solid black;
+}
+
+.box:hover {
+    background-color: darkgray;
+}
+
+.score {
+    width: 300px;
+    margin: 30px auto;
+    display: flex;
+    justify-content: space-between;
+    font-size: 30px;
+}
+
+.button {
+    width: 300px;
+    height: 60px;
+    font-size: 40px;
+    background-color: lightblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px auto;
+}
+
+.button:hover {
+    background-color: white;
 }
