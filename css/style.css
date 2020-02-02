@@ -22,12 +22,14 @@ body {
     width: 900px;
     display: flex;
     flex-wrap: wrap;
-    height: 550px;
+    height: 400px;
     align-items: stretch;
 }
 
 .box {
     width: 33.33%;
+    background-size: cover;
+    background-repeat: no-repeat;
     /* border: 1px solid white; */
 }
 
