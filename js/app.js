@@ -4,7 +4,7 @@ const correctCombinations = [
     [4, 5, 6],
     [7, 8, 9],
     [1, 4, 7],
-    [2, 5, 8],
+    [2, 5, 7],
     [3, 6, 9],
     [1, 5, 9],
     [3, 5, 7],
@@ -22,6 +22,7 @@ const boxes = document.querySelectorAll('.box');
 const clearGame = function() {
     for (let i = 0; i < boxes.length; i++)  {
         const elementSelected = document.querySelector('.box-' + (i + 1));
+        elementSelected.classList.remove('selected');
         elementSelected.style.backgroundImage = '';
     }
     xChecks = [];
@@ -34,10 +35,16 @@ for (let i = 0; i < boxes.length; i++) {
     boxes[i].addEventListener('click', function () {
         winner = '';
         const elementSelected = document.querySelector('.box-' + (i + 1));
-        elementSelected.style.backgroundImage = `url(img/${turn}.png)`;
-        elementSelected.style.backgroundSize = 'contain';
-        elementSelected.style.backgroundRepeat = 'no-repeat';
-        elementSelected.style.backgroundPosition = 'center';
+        if(!elementSelected.classList.contains('selected')) {
+            elementSelected.classList.add('selected');
+            elementSelected.style.backgroundImage = `url(img/${turn}.png)`;
+            elementSelected.style.backgroundSize = 'contain';
+            elementSelected.style.backgroundRepeat = 'no-repeat';
+            elementSelected.style.backgroundPosition = 'center';
+            elementSelected.classList.add('selected');
+        } else {
+            return;
+        }
         if(turn === 'x') {
             xChecks.push(i + 1);
             xChecks.sort(function(a, b) { return a-b; });
@@ -77,9 +84,20 @@ for (let i = 0; i < boxes.length; i++) {
         else if(oChecks.length + xChecks.length === 9) {
             document.querySelector('.result').innerText = 'Tie :(';
             clearGame();
+        } else {
+            document.querySelector('.result').innerText = turn.toUpperCase()  + ' Turn.';
         }
 
         // ---------
 
     });
 }
+
+document.querySelector('.clear-game').addEventListener('click', function() {
+    clearGame();
+    xScore = 0;
+    oScore = 0;
+    document.querySelector('.result').innerText = 'Game reset!';
+    document.querySelector('.x-score').innerText = xScore;
+    document.querySelector('.o-score').innerText = oScore;
+})

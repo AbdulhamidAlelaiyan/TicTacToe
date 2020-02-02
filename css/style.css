@@ -19,7 +19,7 @@ body {
 .wrapper {
     /* border: 1px solid black; */
     margin: 5px auto;
-    width: 900px;
+    max-width: 900px;
     display: flex;
     flex-wrap: wrap;
     height: 400px;
@@ -56,7 +56,7 @@ body {
 }
 
 .score {
-    width: 330px;
+    max-width: 330px;
     margin: 30px auto;
     display: flex;
     justify-content: center;
