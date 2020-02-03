@@ -29,6 +29,9 @@ document.querySelector('.x-score').innerHTML = xScore;
 document.querySelector('.o-score').innerHTML = oScore;
 document.querySelector('.t-score').innerHTML = tScore;
 
+// winning path to not be replicated (fixing a bug)
+let correctPath;
+
 // Global flag if single player mode enabled
 let singlePlayer = localStorage.getItem('singlePlayer');
 if(singlePlayer === 'true') {
@@ -52,6 +55,7 @@ const clearGame = function() {
     oChecks = [];
     winner = '';
     turn = 'x';
+    correctPath = -1;
 };
 
 const selectedBox = function (i) {
@@ -97,14 +101,16 @@ const selectedBox = function (i) {
         // See if the correct checks are more than 3 then he made a correct path somewhere
         if(xCorrectChecks >= 3) {
             winner = 'x';
-            document.querySelector('.x-score').innerHTML = ++xScore;
+            if(correctPath !== i) document.querySelector('.x-score').innerHTML = ++xScore;
             localStorage.setItem('xScore', xScore);
+            correctPath = i;
             break;
         }
         else if(oCorrectChecks >= 3) {
             winner = 'o';
-            document.querySelector('.o-score').innerHTML = ++oScore;
+            if(correctPath !== i) document.querySelector('.o-score').innerHTML = ++oScore;
             localStorage.setItem('oScore', oScore);
+            correctPath = i;
             break;
         }
     }
@@ -154,7 +160,8 @@ document.querySelector('.clear-game').addEventListener('click', resetGame);
 
 const AIPlayer = function(boxNumber) {
     while(true) {
-        boxNumber = Math.floor(Math.random() * 8);
+        // boxNumber = Math.floor(Math.random() * 8);
+
         let checkedBox = document.querySelector('.box-' + (boxNumber + 1));
         if (!checkedBox.classList.contains('selected') && winner === '') {
             selectedBox(boxNumber);
