@@ -2,7 +2,7 @@ let turn = 'x';
 const correctCombinations = [
     [1, 2, 3],
     [4, 5, 6],
-    [7, 8, 9],
+    [7, 8, 9],          // These Are the combination in which if one player made he/she will win.
     [1, 4, 7],
     [2, 5, 8],
     [3, 6, 9],
@@ -10,24 +10,28 @@ const correctCombinations = [
     [3, 5, 7],
 ];
 
-let xChecks = [];
-let oChecks = [];
+let xChecks = []; // What player X checked in the TTT Grid.
+let oChecks = []; // What player O checked in the TTT Grid.
 let winner;
 let localStorage = window.localStorage;
 
+// Using localstorage object to store data on the clinet
 let xScore = localStorage.getItem('xScore') ? localStorage.getItem('xScore') : 0;
 let oScore = localStorage.getItem('oScore') ? localStorage.getItem('oScore') : 0;
 let tScore = localStorage.getItem('tScore') ? localStorage.getItem('tScore') : 0;
 
+// Storing how many correct checks players made.
 let xCorrectChecks = 0;
 let oCorrectChecks = 0;
 
+// Setting the scores on the web page.
 document.querySelector('.x-score').innerHTML = xScore;
 document.querySelector('.o-score').innerHTML = oScore;
 document.querySelector('.t-score').innerHTML = tScore;
 
 const boxes = document.querySelectorAll('.box');
 
+// Function to reset the current game.
 const clearGame = function() {
     for (let i = 0; i < boxes.length; i++)  {
         const elementSelected = document.querySelector('.box-' + (i + 1));
@@ -44,7 +48,7 @@ for (let i = 0; i < boxes.length; i++) {
     boxes[i].addEventListener('click', function () {
         winner = '';
         const elementSelected = document.querySelector('.box-' + (i + 1));
-        if(!elementSelected.classList.contains('selected')) {
+        if(!elementSelected.classList.contains('selected')) { // Checking if it was already selected
             elementSelected.classList.add('selected');
             elementSelected.style.backgroundImage = `url(img/${turn}.png)`;
             elementSelected.style.backgroundSize = 'contain';
@@ -68,6 +72,7 @@ for (let i = 0; i < boxes.length; i++) {
         for(let i =  0; i < correctCombinations.length; i++) {
             xCorrectChecks = 0;
             oCorrectChecks = 0;
+            // Setting the number of correct checks each player made.
             for(let j =  0; j < xChecks.length; j++) {
                 if(correctCombinations[i].includes(xChecks[j])) {
                     xCorrectChecks++;
@@ -80,6 +85,7 @@ for (let i = 0; i < boxes.length; i++) {
                 }
             }
 
+            // See if the correct checks are more than 3 then he made a correct path somewhere
             if(xCorrectChecks >= 3) {
                 winner = 'x';
                 document.querySelector('.x-score').innerHTML = ++xScore;
@@ -93,6 +99,7 @@ for (let i = 0; i < boxes.length; i++) {
                 break;
             }
         }
+        // Switching turns in the end of the callback of the event.
         turn = turn === 'x' ? 'o' : 'x';
         if(winner !== '') {
             document.querySelector('.result').innerText = winner.toUpperCase() + ' Won! 🏆';
@@ -110,6 +117,8 @@ for (let i = 0; i < boxes.length; i++) {
     });
 }
 
+// An anonymous function registered to an event that will reset everything including the scores
+// and the data stored using the Localstorage object.
 document.querySelector('.clear-game').addEventListener('click', function() {
     clearGame();
     xScore = 0;
