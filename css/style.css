@@ -95,6 +95,7 @@ body {
     justify-content: center;
     align-items: center;
     margin: 5px auto;
+    cursor: pointer;
 }
 
 .button:hover {
@@ -111,6 +112,40 @@ audio {
     display: none;
 }
 
+.single-player {
+    display: flex;
+    justify-content: center;
+    background-color: blueviolet;
+    width: 350px;
+    margin: 30px auto;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.single-player a  {
+    text-decoration: none;
+    color: white;
+}
+
+.single-player:hover {
+    background-color: black;
+    color: white;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: aliceblue;
+}
+
 @media(max-width: 900px) {
     .title {
         font-size: 30px;
@@ -124,9 +159,14 @@ audio {
 
     .score p {
         margin: 2px;
+        font-size: 20px;
     }
 
     .wrapper {
         margin: 10px;
+    }
+
+    .buttons {
+        flex-direction: column;
     }
 }

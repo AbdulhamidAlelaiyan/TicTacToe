@@ -29,6 +29,16 @@ document.querySelector('.x-score').innerHTML = xScore;
 document.querySelector('.o-score').innerHTML = oScore;
 document.querySelector('.t-score').innerHTML = tScore;
 
+// Global flag if single player mode enabled
+let singlePlayer = localStorage.getItem('singlePlayer');
+if(singlePlayer === 'true') {
+    document.querySelector('.single-player').innerText = '🔂Switch back to multiplayer.🔂';
+    singlePlayer = true;
+} else {
+    document.querySelector('.single-player').innerText = '🔂 Switch Single player Mode 🔂';
+    singlePlayer = false;
+}
+
 const boxes = document.querySelectorAll('.box');
 
 // Function to reset the current game.
@@ -42,78 +52,85 @@ const clearGame = function() {
     oChecks = [];
     winner = '';
     turn = 'x';
-}
+};
+
+const selectedBox = function (i) {
+    winner = '';
+    const elementSelected = document.querySelector('.box-' + (i + 1));
+    if(!elementSelected.classList.contains('selected')) { // Checking if it was already selected
+        elementSelected.classList.add('selected');
+        elementSelected.style.backgroundImage = `url(img/${turn}.png)`;
+        elementSelected.style.backgroundSize = 'contain';
+        elementSelected.style.backgroundRepeat = 'no-repeat';
+        elementSelected.style.backgroundPosition = 'center';
+        elementSelected.classList.add('selected');
+        if(turn === 'x') document.querySelector('.click1').play();
+        else document.querySelector('.click2').play();
+    } else {
+        return;
+    }
+    if(turn === 'x') {
+        xChecks.push(i + 1);
+        xChecks.sort(function(a, b) { return a-b; });
+    }
+    else {
+        oChecks.push(i  + 1);
+        oChecks.sort(function(a, b) { return a-b; });
+    }
+
+    for(let i =  0; i < correctCombinations.length; i++) {
+        xCorrectChecks = 0;
+        oCorrectChecks = 0;
+        // Setting the number of correct checks each player made.
+        for(let j =  0; j < xChecks.length; j++) {
+            if(correctCombinations[i].includes(xChecks[j])) {
+                xCorrectChecks++;
+            }
+        }
+
+        for(let j =  0; j < oChecks.length; j++) {
+            if(correctCombinations[i].includes(oChecks[j])) {
+                oCorrectChecks++;
+            }
+        }
+
+        // See if the correct checks are more than 3 then he made a correct path somewhere
+        if(xCorrectChecks >= 3) {
+            winner = 'x';
+            document.querySelector('.x-score').innerHTML = ++xScore;
+            localStorage.setItem('xScore', xScore);
+            break;
+        }
+        else if(oCorrectChecks >= 3) {
+            winner = 'o';
+            document.querySelector('.o-score').innerHTML = ++oScore;
+            localStorage.setItem('oScore', oScore);
+            break;
+        }
+    }
+    // Switching turns in the end of the callback of the event.
+    turn = turn === 'x' ? 'o' : 'x';
+    if(winner !== '') {
+        document.querySelector('.result').innerText = winner.toUpperCase() + ' Won! 🏆';
+        document.querySelector('.win-audio').play();
+        setTimeout(clearGame, 3000);
+        // clearGame();
+    }
+    else if(oChecks.length + xChecks.length === 9) {
+        document.querySelector('.result').innerText = 'Tie :(';
+        document.querySelector('.t-score').innerHTML = ++tScore;
+        localStorage.setItem('tScore', tScore);
+        setTimeout(clearGame, 3000);
+        // clearGame();
+    } else {
+        document.querySelector('.result').innerText = turn.toUpperCase() + ' Turn.';
+    }
+};
 
 for (let i = 0; i < boxes.length; i++) {
-    boxes[i].addEventListener('click', function () {
-        winner = '';
-        const elementSelected = document.querySelector('.box-' + (i + 1));
-        if(!elementSelected.classList.contains('selected')) { // Checking if it was already selected
-            elementSelected.classList.add('selected');
-            elementSelected.style.backgroundImage = `url(img/${turn}.png)`;
-            elementSelected.style.backgroundSize = 'contain';
-            elementSelected.style.backgroundRepeat = 'no-repeat';
-            elementSelected.style.backgroundPosition = 'center';
-            elementSelected.classList.add('selected');
-            if(turn === 'x') document.querySelector('.click1').play();
-            else document.querySelector('.click2').play();
-        } else {
-            return;
-        }
-        if(turn === 'x') {
-            xChecks.push(i + 1);
-            xChecks.sort(function(a, b) { return a-b; });
-        }
-        else {
-            oChecks.push(i  + 1);
-            oChecks.sort(function(a, b) { return a-b; });
-        }
-
-        for(let i =  0; i < correctCombinations.length; i++) {
-            xCorrectChecks = 0;
-            oCorrectChecks = 0;
-            // Setting the number of correct checks each player made.
-            for(let j =  0; j < xChecks.length; j++) {
-                if(correctCombinations[i].includes(xChecks[j])) {
-                    xCorrectChecks++;
-                }
-            }
-
-            for(let j =  0; j < oChecks.length; j++) {
-                if(correctCombinations[i].includes(oChecks[j])) {
-                    oCorrectChecks++;
-                }
-            }
-
-            // See if the correct checks are more than 3 then he made a correct path somewhere
-            if(xCorrectChecks >= 3) {
-                winner = 'x';
-                document.querySelector('.x-score').innerHTML = ++xScore;
-                localStorage.setItem('xScore', xScore);
-                break;
-            }
-            else if(oCorrectChecks >= 3) {
-                winner = 'o';
-                document.querySelector('.o-score').innerHTML = ++oScore;
-                localStorage.setItem('oScore', oScore);
-                break;
-            }
-        }
-        // Switching turns in the end of the callback of the event.
-        turn = turn === 'x' ? 'o' : 'x';
-        if(winner !== '') {
-            document.querySelector('.result').innerText = winner.toUpperCase() + ' Won! 🏆';
-            document.querySelector('.win-audio').play();
-            clearGame();
-        }
-        else if(oChecks.length + xChecks.length === 9) {
-            document.querySelector('.result').innerText = 'Tie :(';
-            document.querySelector('.t-score').innerHTML = ++tScore;
-            localStorage.setItem('tScore', tScore);
-            clearGame();
-        } else {
-            document.querySelector('.result').innerText = turn.toUpperCase()  + ' Turn.';
-        }
+    boxes[i].addEventListener('click', function() {
+        selectedBox(i);
+        if(singlePlayer) AIPlayer(i);
     });
 }
 
@@ -134,3 +151,31 @@ const resetGame = function() {
 };
 
 document.querySelector('.clear-game').addEventListener('click', resetGame);
+
+const AIPlayer = function(boxNumber) {
+    while(true) {
+        boxNumber = Math.floor(Math.random() * 8);
+        let checkedBox = document.querySelector('.box-' + (boxNumber + 1));
+        if (!checkedBox.classList.contains('selected') && winner === '') {
+            selectedBox(boxNumber);
+            break;
+        } else if(winner === 'x' || winner === 'o') {
+            break;
+        }
+    }
+};
+
+const switchToSingleElement = function() {
+    if(!singlePlayer) {
+        singlePlayer = true;
+        document.querySelector('.single-player').innerText = '🔂 Switch back to multiplayer. 🔂';
+        localStorage.setItem('singlePlayer', 'true');
+    }
+    else {
+        singlePlayer = false;
+        document.querySelector('.single-player').innerText = '🔂 Switch Single player Mode 🔂';
+        localStorage.setItem('singlePlayer', 'false');
+    }
+};
+
+document.querySelector('.single-player').addEventListener('click', switchToSingleElement);
