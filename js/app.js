@@ -117,9 +117,9 @@ for (let i = 0; i < boxes.length; i++) {
     });
 }
 
-// An anonymous function registered to an event that will reset everything including the scores
+// A function registered to an event that will reset everything including the scores
 // and the data stored using the Localstorage object.
-document.querySelector('.clear-game').addEventListener('click', function() {
+const resetGame = function() {
     clearGame();
     xScore = 0;
     oScore = 0;
@@ -131,4 +131,6 @@ document.querySelector('.clear-game').addEventListener('click', function() {
     localStorage.setItem('xScore', 0);
     localStorage.setItem('oScore', 0);
     localStorage.setItem('tScore', 0);
-});
+};
+
+document.querySelector('.clear-game').addEventListener('click', resetGame);
