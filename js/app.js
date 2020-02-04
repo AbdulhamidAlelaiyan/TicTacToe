@@ -119,14 +119,14 @@ const selectedBox = function (i) {
     if(winner !== '') {
         document.querySelector('.result').innerText = winner.toUpperCase() + ' Won! 🏆';
         document.querySelector('.win-audio').play();
-        setTimeout(clearGame, 3000);
+        setTimeout(clearGame, 1000);
         // clearGame();
     }
     else if(oChecks.length + xChecks.length === 9) {
         document.querySelector('.result').innerText = 'Tie :(';
         document.querySelector('.t-score').innerHTML = ++tScore;
         localStorage.setItem('tScore', tScore);
-        setTimeout(clearGame, 3000);
+        setTimeout(clearGame, 1000);
         // clearGame();
     } else {
         document.querySelector('.result').innerText = turn.toUpperCase() + ' Turn.';
@@ -160,8 +160,7 @@ document.querySelector('.clear-game').addEventListener('click', resetGame);
 
 const AIPlayer = function(boxNumber) {
     while(true) {
-        // boxNumber = Math.floor(Math.random() * 8);
-
+        let boxNumber = Math.floor(Math.random() * 8);
         let checkedBox = document.querySelector('.box-' + (boxNumber + 1));
         if (!checkedBox.classList.contains('selected') && winner === '') {
             selectedBox(boxNumber);
@@ -186,3 +185,4 @@ const switchToSingleElement = function() {
 };
 
 document.querySelector('.single-player').addEventListener('click', switchToSingleElement);
+
