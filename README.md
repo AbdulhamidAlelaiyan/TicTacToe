@@ -43,7 +43,7 @@ the clear game function would reset the choices each player make and will remove
 ### Usage 
 You have two modes:
 1. Single player mode: It's a game between you and an AI Agent. 
-2. Multiplayer mode: It's a game between you and your friend. 
+2. Multiplayer mode: It's a game between you and your friend.<br>
 Scores for winners and losers are at the bottom of the Tic Tac Toe grid and also the number of ties. 
 you can reset the score by clicking New Game button in the bottom of the page. 
 Note: scores are resevred even after refreshing the page. 
