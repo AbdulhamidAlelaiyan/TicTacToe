@@ -166,7 +166,18 @@ const AIPlayer = function() {
     for(let i = 0; i < correctCombinations.length; i++) {
         closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[1]);
         closeToLose = correctCombinations[i].includes(xChecks[0]) && correctCombinations[i].includes(xChecks[1]);
-        if(closeToWin || closeToLose) {
+        if(closeToWin) {
+            for(let j = 0; j < correctCombinations[i].length; j++) {
+                checkedBox = document.querySelector('.box-' + correctCombinations[i][j]);
+                if (!checkedBox.classList.contains('selected') && winner === '') {
+                    selectedBox(correctCombinations[i][j] - 1);
+                    nothingToHappen = false;
+                    break;
+                }
+            }
+            break;
+        }
+        else if(closeToLose) {
             for(let j = 0; j < correctCombinations[i].length; j++) {
                 checkedBox = document.querySelector('.box-' + correctCombinations[i][j]);
                 if (!checkedBox.classList.contains('selected') && winner === '') {
