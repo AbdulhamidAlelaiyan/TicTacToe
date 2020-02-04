@@ -10,6 +10,10 @@ const correctCombinations = [
     [3, 5, 7],
 ];
 
+// const combo = {
+//     1: [[2, 3],[4,7], [5,9]],
+//     2: [[1, 3]],
+// }
 let xChecks = []; // What player X checked in the TTT Grid.
 let oChecks = []; // What player O checked in the TTT Grid.
 let winner;
@@ -44,6 +48,9 @@ if(singlePlayer === 'true') {
 
 const boxes = document.querySelectorAll('.box');
 
+
+let sameSelection = false;
+
 // Function to reset the current game.
 const clearGame = function() {
     for (let i = 0; i < boxes.length; i++)  {
@@ -70,7 +77,9 @@ const selectedBox = function (i) {
         elementSelected.classList.add('selected');
         if(turn === 'x') document.querySelector('.click1').play();
         else document.querySelector('.click2').play();
+        sameSelection = false;
     } else {
+        sameSelection = true;
         return;
     }
     if(turn === 'x') {
@@ -136,7 +145,7 @@ const selectedBox = function (i) {
 for (let i = 0; i < boxes.length; i++) {
     boxes[i].addEventListener('click', function() {
         selectedBox(i);
-        if(singlePlayer && (xChecks.length + oChecks.length) !== 9) AIPlayer();
+        if(singlePlayer && (xChecks.length + oChecks.length) !== 9 && !sameSelection) AIPlayer();
     });
 }
 
@@ -165,7 +174,15 @@ const AIPlayer = function() {
     let checkedBox;
     for(let i = 0; i < correctCombinations.length; i++) {
         closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[1]);
+        if(oChecks[2] !== undefined) {
+            closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[2]);
+            if(!closeToWin) closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[2]);
+        }
         closeToLose = correctCombinations[i].includes(xChecks[0]) && correctCombinations[i].includes(xChecks[1]);
+        if(xChecks[2] !== undefined) {
+            closeToLose = correctCombinations[i].includes(xChecks[0]) && correctCombinations[i].includes(xChecks[2]);
+            if(!closeToLose) closeToLose = correctCombinations[i].includes(xChecks[0]) && correctCombinations[i].includes(xChecks[2]);
+        }
         if(closeToWin) {
             for(let j = 0; j < correctCombinations[i].length; j++) {
                 checkedBox = document.querySelector('.box-' + correctCombinations[i][j]);
