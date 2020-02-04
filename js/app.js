@@ -172,8 +172,12 @@ const AIPlayer = function() {
     let closeToLose;
     let nothingToHappen = true;
     let checkedBox;
+    let alreadySelected;
     for(let i = 0; i < correctCombinations.length; i++) {
         closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[1]);
+        // alreadySelected = document.querySelector('.box-' + correctCombinations[i][0]).classList.contains('selected');
+        // alreadySelected = alreadySelected && document.querySelector('.box-' + correctCombinations[i][1]).classList.contains('selected');
+        // alreadySelected = alreadySelected && document.querySelector('.box-' + correctCombinations[i][2]).classList.contains('selected');
         if(oChecks[2] !== undefined) {
             closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[2]);
             if(!closeToWin) closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[2]);
@@ -207,14 +211,27 @@ const AIPlayer = function() {
         }
     }
     if(nothingToHappen) {
-        while(true) {
-            let boxNumber = Math.floor(Math.random() * 8);
-            let checkedBox = document.querySelector('.box-' + (boxNumber + 1));
-            if (!checkedBox.classList.contains('selected') && winner === '') {
-                selectedBox(boxNumber);
-                break;
-            } else if(winner === 'x' || winner === 'o') {
-                break;
+        if(!document.querySelector('.box-5').classList.contains('selected')) {
+            selectedBox(4);
+        } else if(!document.querySelector('.box-1').classList.contains('selected')) {
+            selectedBox(0);
+        } else if(!document.querySelector('.box-3').classList.contains('selected')) {
+            selectedBox(2);
+        } else if(!document.querySelector('.box-7').classList.contains('selected')) {
+            selectedBox(6);
+        } else if(!document.querySelector('.box-9').classList.contains('selected')) {
+            selectedBox(8);
+        }
+        else {
+            while(true) {
+                let boxNumber = Math.floor(Math.random() * 8);
+                let checkedBox = document.querySelector('.box-' + (boxNumber + 1));
+                if (!checkedBox.classList.contains('selected') && winner === '') {
+                    selectedBox(boxNumber);
+                    break;
+                } else if(winner === 'x' || winner === 'o') {
+                    break;
+                }
             }
         }
     }
