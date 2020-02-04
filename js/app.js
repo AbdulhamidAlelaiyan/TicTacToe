@@ -136,7 +136,7 @@ const selectedBox = function (i) {
 for (let i = 0; i < boxes.length; i++) {
     boxes[i].addEventListener('click', function() {
         selectedBox(i);
-        if(singlePlayer) AIPlayer(i);
+        if(singlePlayer && (xChecks.length + oChecks.length) !== 9) AIPlayer();
     });
 }
 
@@ -158,18 +158,40 @@ const resetGame = function() {
 
 document.querySelector('.clear-game').addEventListener('click', resetGame);
 
-const AIPlayer = function(boxNumber) {
-    while(true) {
-        let boxNumber = Math.floor(Math.random() * 8);
-        let checkedBox = document.querySelector('.box-' + (boxNumber + 1));
-        if (!checkedBox.classList.contains('selected') && winner === '') {
-            selectedBox(boxNumber);
-            break;
-        } else if(winner === 'x' || winner === 'o') {
+const AIPlayer = function() {
+    let closeToWin;
+    let closeToLose;
+    let nothingToHappen = true;
+    let checkedBox;
+    for(let i = 0; i < correctCombinations.length; i++) {
+        closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[1]);
+        closeToLose = correctCombinations[i].includes(xChecks[0]) && correctCombinations[i].includes(xChecks[1]);
+        if(closeToWin || closeToLose) {
+            for(let j = 0; j < correctCombinations[i].length; j++) {
+                checkedBox = document.querySelector('.box-' + correctCombinations[i][j]);
+                if (!checkedBox.classList.contains('selected') && winner === '') {
+                    selectedBox(correctCombinations[i][j] - 1);
+                    nothingToHappen = false;
+                    break;
+                }
+            }
             break;
         }
     }
+    if(nothingToHappen) {
+        while(true) {
+            let boxNumber = Math.floor(Math.random() * 8);
+            let checkedBox = document.querySelector('.box-' + (boxNumber + 1));
+            if (!checkedBox.classList.contains('selected') && winner === '') {
+                selectedBox(boxNumber);
+                break;
+            } else if(winner === 'x' || winner === 'o') {
+                break;
+            }
+        }
+    }
 };
+
 
 const switchToSingleElement = function() {
     if(!singlePlayer) {
@@ -185,4 +207,3 @@ const switchToSingleElement = function() {
 };
 
 document.querySelector('.single-player').addEventListener('click', switchToSingleElement);
-
