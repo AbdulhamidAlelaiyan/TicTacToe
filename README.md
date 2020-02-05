@@ -7,12 +7,16 @@ The technologies (programming langauges, IDEs, tools etc) used to build the proj
   - HTML 
   - CSS 
   - JavaScript 
-  - Webstorm
+  - PHPStorm
   - Git 
   - Github 
   - Github Pages 
   - Chrome developer Tools 
   - Balsamiq wireframes 
+  - jQuery 
+  - PHP 
+  - Vagrant 
+  - MySQL 
   
 ### Wireframes 
 The wireframes were used to get the general layout and the skeleton of the game design
@@ -47,3 +51,4 @@ You have two modes:
 Scores for winners and losers are at the bottom of the Tic Tac Toe grid and also the number of ties. 
 you can reset the score by clicking New Game button in the bottom of the page. 
 Note: scores are resevred even after refreshing the page. 
+3. Online Players mode: You can set the room your friend is in or you can use the random generated room and send the number to your friend. 
