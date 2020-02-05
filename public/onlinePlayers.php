@@ -17,4 +17,3 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
         $db->query("INSERT INTO moves (position, player, room_number) VALUES ($position, '$player', $room_number)");
     }
 }
-
