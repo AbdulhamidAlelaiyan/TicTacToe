@@ -169,7 +169,12 @@ const getNewMove = function() {
 // A function registered to an event that will reset everything including the scores
 // and the data stored using the Localstorage object.
 const resetGame = function() {
-    clearGame();
+    if(onlineMode) {
+        $.post('onlinePlayers.php', {deleteRoom: true, room_number: roomNumber}, function() {
+            clearGame();
+        });
+    }
+    else clearGame();
     xScore = 0;
     oScore = 0;
     tScore = 0;

@@ -7,9 +7,14 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
     $json = json_encode($result->fetchAll(PDO::FETCH_ASSOC));
     echo $json;
 } else {
-    $room_number = $_POST['room_number'];
-    $position = $_POST['position'];
-    $player = $_POST['player'];
-    $db->query("INSERT INTO moves (position, player, room_number) VALUES ($position, '$player', $room_number)");
+    if(isset($_POST['deleteRoom'])) {
+        $db->query('DELETE FROM moves WHERE room_number = ' . $_POST['room_number']);
+    }
+    else {
+        $room_number = $_POST['room_number'];
+        $position = $_POST['position'];
+        $player = $_POST['player'];
+        $db->query("INSERT INTO moves (position, player, room_number) VALUES ($position, '$player', $room_number)");
+    }
 }
 
