@@ -154,6 +154,11 @@ footer {
     margin: 30px auto;
     padding: 10px;
     cursor: pointer;
+
+}
+
+.online-indicator {
+    display: none;
 }
 
 @media(max-width: 900px) {

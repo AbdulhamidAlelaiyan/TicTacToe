@@ -258,3 +258,16 @@ const switchToSingleElement = function() {
 };
 
 document.querySelector('.single-player').addEventListener('click', switchToSingleElement);
+
+const roomGenerator = function() {
+    let room_number = Math.floor(Math.random() * 1000);
+    return room_number;
+};
+
+
+document.querySelector('.online-mode').addEventListener('click', function () {
+    let room_number = roomGenerator();
+    document.querySelector('.single-player').style.display = 'none';
+    document.querySelector('.online-indicator').style.display = 'block';
+    document.querySelector('.room-number').innerText = room_number;
+});
