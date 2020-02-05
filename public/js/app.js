@@ -10,10 +10,6 @@ const correctCombinations = [
     [3, 5, 7],
 ];
 
-// const combo = {
-//     1: [[2, 3],[4,7], [5,9]],
-//     2: [[1, 3]],
-// }
 let xChecks = []; // What player X checked in the TTT Grid.
 let oChecks = []; // What player O checked in the TTT Grid.
 let winner;
@@ -45,6 +41,10 @@ if(singlePlayer === 'true') {
     document.querySelector('.single-player').innerText = '🔂 Switch Single player Mode 🔂';
     singlePlayer = false;
 }
+
+// Global flag if online player mode enabled
+let onlineMode = false;
+let roomNumber = 236;
 
 const boxes = document.querySelectorAll('.box');
 
@@ -129,14 +129,12 @@ const selectedBox = function (i) {
         document.querySelector('.result').innerText = winner.toUpperCase() + ' Won! 🏆';
         document.querySelector('.win-audio').play();
         setTimeout(clearGame, 1000);
-        // clearGame();
     }
     else if(oChecks.length + xChecks.length === 9) {
         document.querySelector('.result').innerText = 'Tie :(';
         document.querySelector('.t-score').innerHTML = ++tScore;
         localStorage.setItem('tScore', tScore);
         setTimeout(clearGame, 1000);
-        // clearGame();
     } else {
         document.querySelector('.result').innerText = turn.toUpperCase() + ' Turn.';
     }
@@ -146,8 +144,27 @@ for (let i = 0; i < boxes.length; i++) {
     boxes[i].addEventListener('click', function() {
         selectedBox(i);
         if(singlePlayer && (xChecks.length + oChecks.length) !== 9 && !sameSelection) AIPlayer();
+        else if(onlineMode) {
+            $.post('onlinePlayers.php', {
+                room_number: roomNumber,
+                position: i,
+                player: turn,
+            }, function(data, status) {
+                console.log(data, status);
+            });
+        }
     });
 }
+
+// Function the request frequently for any update from the server regarding the 2nd player new moves
+const getNewMove = function() {
+    $.get('onlinePlayers.php', {room_number: roomNumber} ,function(data, status) {
+        data = JSON.parse(data);
+        for(let i = 0; i < data.length; i++) {
+            selectedBox(parseInt(data[i].position));
+        }
+    });
+};
 
 // A function registered to an event that will reset everything including the scores
 // and the data stored using the Localstorage object.
@@ -260,14 +277,22 @@ const switchToSingleElement = function() {
 document.querySelector('.single-player').addEventListener('click', switchToSingleElement);
 
 const roomGenerator = function() {
-    let room_number = Math.floor(Math.random() * 1000);
-    return room_number;
+    return Math.floor(Math.random() * 1000);
 };
 
 
 document.querySelector('.online-mode').addEventListener('click', function () {
-    let room_number = roomGenerator();
+    roomNumber = roomGenerator();
     document.querySelector('.single-player').style.display = 'none';
     document.querySelector('.online-indicator').style.display = 'block';
-    document.querySelector('.room-number').innerText = room_number;
+    document.querySelector('.room-number').innerText = roomNumber;
+    setInterval(getNewMove, 1000);
+    onlineMode = true;
+    singlePlayer = false;
 });
+
+document.querySelector('.room-number-input').addEventListener('change', function() {
+    roomNumber = document.querySelector('.room-number-input').value;
+    clearGame();
+});
+
