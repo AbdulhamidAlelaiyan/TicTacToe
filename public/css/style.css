@@ -146,6 +146,16 @@ footer {
     color: aliceblue;
 }
 
+.online-mode {
+    display: flex;
+    justify-content: center;
+    background-color: blueviolet;
+    width: 350px;
+    margin: 30px auto;
+    padding: 10px;
+    cursor: pointer;
+}
+
 @media(max-width: 900px) {
     .title {
         font-size: 30px;

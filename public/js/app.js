@@ -172,20 +172,26 @@ const AIPlayer = function() {
     let closeToLose;
     let nothingToHappen = true;
     let checkedBox;
-    let alreadySelected;
     for(let i = 0; i < correctCombinations.length; i++) {
         closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[1]);
-        // alreadySelected = document.querySelector('.box-' + correctCombinations[i][0]).classList.contains('selected');
-        // alreadySelected = alreadySelected && document.querySelector('.box-' + correctCombinations[i][1]).classList.contains('selected');
-        // alreadySelected = alreadySelected && document.querySelector('.box-' + correctCombinations[i][2]).classList.contains('selected');
         if(oChecks[2] !== undefined) {
             closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[2]);
             if(!closeToWin) closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[2]);
+        }
+        if(oChecks[3] !== undefined) {
+            closeToWin = correctCombinations[i].includes(oChecks[0]) && correctCombinations[i].includes(oChecks[3]);
+            if(!closeToWin) closeToWin = correctCombinations[i].includes(oChecks[1]) && correctCombinations[i].includes(oChecks[3]);
+            if(!closeToWin) closeToWin = correctCombinations[i].includes(oChecks[2]) && correctCombinations[i].includes(oChecks[3]);
         }
         closeToLose = correctCombinations[i].includes(xChecks[0]) && correctCombinations[i].includes(xChecks[1]);
         if(xChecks[2] !== undefined) {
             closeToLose = correctCombinations[i].includes(xChecks[0]) && correctCombinations[i].includes(xChecks[2]);
             if(!closeToLose) closeToLose = correctCombinations[i].includes(xChecks[0]) && correctCombinations[i].includes(xChecks[2]);
+        }
+        if(xChecks[3] !== undefined) {
+            closeToLose = correctCombinations[i].includes(xChecks[0]) && correctCombinations[i].includes(xChecks[3]);
+            if(!closeToLose) closeToLose = correctCombinations[i].includes(xChecks[1]) && correctCombinations[i].includes(xChecks[3]);
+            if(!closeToLose) closeToLose = correctCombinations[i].includes(xChecks[2]) && correctCombinations[i].includes(xChecks[3]);
         }
         if(closeToWin) {
             for(let j = 0; j < correctCombinations[i].length; j++) {
