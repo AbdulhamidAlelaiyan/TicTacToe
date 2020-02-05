@@ -160,8 +160,17 @@ for (let i = 0; i < boxes.length; i++) {
 const getNewMove = function() {
     $.get('onlinePlayers.php', {room_number: roomNumber} ,function(data, status) {
         data = JSON.parse(data);
-        for(let i = 0; i < data.length; i++) {
-            selectedBox(parseInt(data[i].position));
+        if(winner === '') {
+            for(let i = 0; i < data.length; i++) {
+                selectedBox(parseInt(data[i].position));
+            }
+        } else {
+            $.post('onlinePlayers.php', {
+                deleteRoom: true,
+                room_number: roomNumber,
+            }, function (data, status) {
+                clearGame();
+            })
         }
     });
 };
