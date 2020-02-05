@@ -44,6 +44,10 @@ The wireframes were used to get the general layout and the skeleton of the game 
 The clear game function is called when the game is finished by a win or a tie or if a user wanted to reset the game. 
 the clear game function would reset the choices each player make and will remove all the classes that indicated the selected state and also reset each variable that describe the former state of the game. 
 
+### getNewMove function 
+This method is using a concept called http polling where in each interval of time a request will be send to the server.
+It checks if the other player has a played his turn. 
+
 ### Usage 
 You have two modes:
 1. Single player mode: It's a game between you and an AI Agent. 
